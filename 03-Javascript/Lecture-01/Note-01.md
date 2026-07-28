@@ -1,768 +1,540 @@
-# Introduction
+# JavaScript in HTML
 
-- The programs in JS called scripts.
-- It can run automatically as page loads.
-- Javascript is executed on "Javascript Engines"
-  V8 - Chrome, Opera, Edge
-  SpiderMonkey - Firefox
+## `<script>` Tag
 
-# JavaScript Basics
+- Used to add JavaScript to HTML.
+- Browser executes it immediately when encountered.
+
+```html
+<script>
+  console.log("Hello");
+</script>
+```
 
 ---
 
-# 1. Hello, World!
+## Inline vs External Script
 
-The first JavaScript program.
+**Inline**
 
-```javascript
-console.log("Hello, World!");
+```html
+<script>
+  alert("Hi");
+</script>
 ```
 
-Other output methods
+**External**
+
+```html
+<script src="app.js"></script>
+```
+
+> ✅ Use external files for larger projects.
+
+---
+
+## `src` Attribute
+
+Loads an external JavaScript file.
+
+```html
+<script src="app.js"></script>
+```
+
+Supports:
+
+- Relative path → `script.js`
+- Absolute path → `/js/script.js`
+- Full URL → `https://...`
+
+---
+
+## Execution Order
+
+Browser parses HTML **top → bottom**.
+
+```
+HTML
+↓
+<script>
+↓
+Execute JS
+↓
+Continue HTML
+```
+
+Scripts execute in the order they appear.
+
+---
+
+## Browser Cache
+
+- External JS is downloaded once.
+- Stored in cache.
+- Reused on future visits.
+- Improves performance.
+
+---
+
+## Important Rule
+
+❌ Invalid
+
+```html
+<script src="app.js">
+  alert("Hello");
+</script>
+```
+
+When `src` exists, **inline code is ignored**.
+
+---
+
+## Deprecated Attributes
+
+```html
+type="text/javascript" language="JavaScript"
+```
+
+❌ No longer needed in HTML5.
+
+---
+
+## Why External JS?
+
+- Cleaner HTML
+- Reusable
+- Easier maintenance
+- Browser caching
+- Faster loading
+
+---
+
+## Browser vs Node.js
+
+**Browser**
+
+- Runs inside web pages.
+- Has `window`, `document`, `alert()`.
+
+**Node.js**
+
+- Runs outside browser.
+- Execute with:
+
+```bash
+node app.js
+```
+
+---
+
+## Paths
+
+| Path            | Meaning          |
+| --------------- | ---------------- |
+| `script.js`     | Current folder   |
+| `./script.js`   | Current folder   |
+| `../script.js`  | Parent folder    |
+| `/js/script.js` | Website root     |
+| `https://...`   | External website |
+
+---
+
+## Remember
+
+- ✅ Use `<script>` to run JavaScript.
+- ✅ Use `src` for external files.
+- ✅ Scripts execute **top → bottom**.
+- ✅ External scripts are **cached**.
+- ❌ Don't mix `src` and inline code.
+- ❌ `type` and `language` are obsolete (for normal JavaScript).
+
+---
+
+# JavaScript Code Structure — Revision Notes
+
+## 1. Statement
+
+- A **statement** is a command/instruction that performs an action.
+- Multiple statements are usually separated by `;`.
 
 ```javascript
 alert("Hello");
-document.write("Hello");
+alert("World");
 ```
-
-### Purpose
-
-- Test whether JavaScript is working.
-- Learn basic syntax.
-- Understand program execution.
 
 ---
 
-# 2. Code Structure
+## 2. Semicolons (`;`)
 
-A JavaScript program is made of **statements**.
+- Marks the **end of a statement**.
+- JavaScript can insert semicolons automatically (**ASI**), but **don't rely on it**.
+- **Best Practice:** Always use semicolons.
 
-```javascript
-let age = 20;
-console.log(age);
-```
+---
 
-### Statements
+## 3. Automatic Semicolon Insertion (ASI)
 
-Each instruction is a statement.
+- JavaScript inserts semicolons **only when it can safely do so**.
+- ASI **does not work in every case**.
 
-```javascript
-let a = 5;
-let b = 10;
-```
-
-### Semicolons
-
-Optional in most places because of **Automatic Semicolon Insertion (ASI)**.
-
-Recommended:
+✅ Works:
 
 ```javascript
-let a = 5;
-let b = 10;
+alert("Hello");
+alert("World");
 ```
 
-### Comments
+❌ Can fail:
 
-Single line
+```javascript
+alert("Hello")[(1, 2)].forEach(alert);
+```
+
+Interpreted as:
+
+```javascript
+alert("Hello")[(1, 2)].forEach(alert);
+```
+
+---
+
+## 4. Incomplete Expressions
+
+If an expression is incomplete, JavaScript **doesn't insert a semicolon**.
+
+```javascript
+alert(3 + 1 + 2);
+```
+
+Output:
+
+```
+6
+```
+
+---
+
+## 5. Single-line Comment
+
+Starts with `//`
 
 ```javascript
 // This is a comment
+alert("Hello");
 ```
 
-Multi-line
+---
+
+## 6. Multi-line Comment
+
+Starts with `/*` and ends with `*/`
 
 ```javascript
 /*
-Multiple
-Lines
+This is
+a comment
 */
 ```
 
 ---
 
-# 3. Strict Mode
+## 7. Purpose of Comments
 
-```javascript
-"use strict";
-```
-
-Enables a stricter version of JavaScript.
-
-Benefits
-
-- Prevents accidental global variables
-- Throws more errors
-- Makes code safer
-- Easier to optimize
-
-Example
-
-Without strict mode
-
-```javascript
-x = 10;
-```
-
-Works (bad).
-
-With strict mode
-
-```javascript
-"use strict";
-
-x = 10;
-```
-
-Throws an error.
+- Explain **what** the code does.
+- Explain **why** it exists.
+- Temporarily disable code.
+- Improve readability.
 
 ---
 
-# 4. Variables
+## 8. Nested Comments
 
-Variables store data.
+❌ Not allowed
 
-Declaration
+```javascript
+/*
+   /* Nested */
+*/
+```
+
+---
+
+## 9. Comments & Production
+
+- JavaScript ignores comments.
+- Minifiers remove comments in production builds.
+- No runtime performance impact.
+
+---
+
+## 10. Useful Shortcuts
+
+| Action                     | Windows/Linux                         | Mac                                   |
+| -------------------------- | ------------------------------------- | ------------------------------------- |
+| Toggle single-line comment | `Ctrl + /`                            | `Cmd + /`                             |
+| Toggle block comment       | `Ctrl + Shift + /` (editor-dependent) | `Cmd + Option + /` (editor-dependent) |
+
+---
+
+## Quick Rules
+
+- ✅ A statement performs an action.
+- ✅ End statements with `;`.
+- ✅ ASI exists, but don't depend on it.
+- ✅ `//` → Single-line comment.
+- ✅ `/* ... */` → Multi-line comment.
+- ❌ Nested block comments are invalid.
+- ✅ Comments are ignored by JavaScript and removed during minification.
+
+---
+
+# 📝 Short & Crisp Revision Notes of Use Strict
+
+## `"use strict"`
+
+- Introduced in **ES5 (2009)**.
+- Enables **modern, safer JavaScript behavior**.
+- Helps avoid old language quirks.
+
+---
+
+## Syntax
+
+```javascript
+"use strict";
+```
+
+or
+
+```javascript
+"use strict";
+```
+
+---
+
+## Placement
+
+✅ Must be the **first statement**.
+
+```javascript
+"use strict";
+```
+
+Only **comments** may appear above it.
+
+---
+
+## Scope
+
+- At top of script → Strict mode for the **entire script**.
+- At top of a function → Strict mode for **that function only**.
+
+---
+
+## Rules
+
+- ❌ Cannot be disabled (`"no use strict"` doesn't exist).
+- ❌ Ignored if placed after executable code.
+
+---
+
+## Browser Console
+
+- Console doesn't always use strict mode.
+- Add `"use strict";` manually when testing.
+
+---
+
+## Modern JavaScript
+
+- **Classes** → Strict mode automatically.
+- **Modules** → Strict mode automatically.
+
+---
+
+## Best Practice
+
+- ✅ Use `"use strict"` in normal scripts.
+- ✅ No need in modules/classes.
+
+---
+
+## One-Line Summary
+
+> **`"use strict"` is an ES5 directive that enables safer, modern JavaScript rules and must appear at the top of a script or function to take effect.**
+
+# JavaScript Variables — Revision Notes
+
+## Variable
+
+- A **variable** is a **named storage** for data.
+- Used to store and reuse information.
+
+```javascript
+let message = "Hello";
+```
+
+---
+
+## Declaration Keywords
+
+### `let`
+
+- Modern way to declare variables.
+- Value **can be changed**.
 
 ```javascript
 let age = 20;
+age = 21;
 ```
 
-### Types of variable declaration
+### `const`
 
-## let
-
-Can change.
-
-```javascript
-let score = 10;
-score = 20;
-```
-
----
-
-## const
-
-Cannot be reassigned.
+- Declares a **constant**.
+- Value **cannot be reassigned**.
 
 ```javascript
 const PI = 3.14;
 ```
 
----
+### `var`
 
-## var
-
-Old way.
-
-```javascript
-var name = "John";
-```
-
-Avoid using `var`.
+- Old way of declaring variables.
+- Avoid in modern JavaScript.
 
 ---
 
-Variable naming rules
+## Assignment
 
-- Can contain letters
-- Digits
-- \_
-- $
-- Cannot start with number
-
-Good
+Use `=` to assign values.
 
 ```javascript
-userName;
-totalPrice;
-```
-
-Bad
-
-```javascript
-123abc
+let name = "John";
 ```
 
 ---
 
-# 5. Data Types
-
-JavaScript has two categories.
-
-## Primitive
-
-- Number
-- String
-- Boolean
-- Null
-- Undefined
-- BigInt
-- Symbol
-
-Example
+## Copying Variables
 
 ```javascript
-let age = 21;
-let name = "Alice";
-let isAdmin = true;
-let value = null;
-let x;
+let a = "Hello";
+let b = a;
+```
+
+Both variables contain `"Hello"`.
+
+---
+
+## Variable Naming Rules
+
+✅ Allowed:
+
+- Letters
+- Digits (not first)
+- `$`
+- `_`
+
+❌ Not Allowed:
+
+- Start with a digit
+- Hyphen (`-`)
+- Reserved keywords (`let`, `return`, `class`, etc.)
+
+---
+
+## Naming Convention
+
+Use **camelCase**.
+
+```javascript
+let firstName;
+let shoppingCart;
 ```
 
 ---
 
-## Object
-
-Everything complex.
+## Case Sensitive
 
 ```javascript
-let person = {
-  name: "John",
-  age: 20,
-};
+apple;
+APPLE;
 ```
 
-Arrays
-
-```javascript
-let numbers = [1, 2, 3];
-```
-
-Functions are also objects.
+These are **different variables**.
 
 ---
 
-# 6. Interaction (alert, prompt, confirm)
+## Redeclaration
 
-### alert()
-
-Displays message.
+❌ Invalid
 
 ```javascript
-alert("Welcome");
+let message = "Hi";
+let message = "Hello";
 ```
+
+A variable declared with `let` can only be declared **once in the same scope**.
 
 ---
 
-### prompt()
+## `use strict`
 
-Takes user input.
+Without strict mode:
 
 ```javascript
-let name = prompt("Your name?");
+num = 5;
 ```
 
-Returns
+Creates a variable (bad practice).
 
-- String
-- null
+With strict mode:
+
+```javascript
+"use strict";
+
+num = 5;
+```
+
+❌ Error: Variable not declared.
 
 ---
 
-### confirm()
+## Uppercase Constants
 
-Yes/No dialog.
-
-```javascript
-let result = confirm("Delete?");
-```
-
-Returns
-
-- true
-- false
-
----
-
-# 7. Type Conversions
-
-Automatic conversion is called **Implicit Coercion**.
-
-Manual conversion is called **Explicit Conversion**.
-
----
-
-## String()
+Use **UPPER_SNAKE_CASE** only for **hard-coded values**.
 
 ```javascript
-String(123);
+const COLOR_RED = "#F00";
+const MAX_USERS = 100;
 ```
 
-Result
+Runtime constants use **camelCase**.
 
-```
-"123"
+```javascript
+const pageLoadTime = 2.3;
 ```
 
 ---
 
-## Number()
+## Best Practices
 
-```javascript
-Number("45");
-```
-
-Result
-
-```
-45
-```
+- ✅ Use `let` for changing values.
+- ✅ Use `const` whenever possible.
+- ❌ Avoid `var`.
+- ✅ Use meaningful names.
+- ✅ Prefer one variable declaration per line.
+- ❌ Don't reuse variables for different purposes.
 
 ---
 
-## Boolean()
-
-```javascript
-Boolean(1);
-```
-
-Result
-
-```
-true
-```
-
-Falsy values
-
-- 0
-- ""
-- null
-- undefined
-- NaN
-- false
-
-Everything else is truthy.
-
----
-
-# 8. Basic Operators
-
-Arithmetic
-
-```javascript
-+
--
-*
-/
-%
-**
-```
-
-Example
-
-```javascript
-5 + 3;
-5 * 2;
-10 % 3;
-2 ** 4;
-```
-
----
-
-Assignment
-
-```javascript
-=
-+=
--=
-*=
-/=
-```
-
----
-
-Unary
-
-```javascript
-++a;
-a++;
---a;
-```
-
----
-
-# 9. Comparisons
-
-Operators
-
-```javascript
->
-<
->=
-<=
-```
-
-Equality
-
-Loose equality
-
-```javascript
-==
-```
-
-Strict equality
-
-```javascript
-===
-```
-
-Difference
-
-```javascript
-5 == "5";
-```
-
-True
-
-```javascript
-5 === "5";
-```
-
-False
-
-Always prefer
-
-```javascript
-===
-```
-
----
-
-# 10. Conditional Branching
-
-## if
-
-```javascript
-if (age >= 18) {
-  console.log("Adult");
-}
-```
-
----
-
-## if else
-
-```javascript
-if (age >= 18) {
-} else {
-}
-```
-
----
-
-## else if
-
-```javascript
-if (score >= 90) {
-} else if (score >= 70) {
-} else {
-}
-```
-
----
-
-## Ternary Operator
-
-```javascript
-condition ? value1 : value2;
-```
-
-Example
-
-```javascript
-let result = age >= 18 ? "Adult" : "Minor";
-```
-
----
-
-# 11. Logical Operators
-
-AND
-
-```javascript
-&&
-```
-
-Both must be true.
-
----
-
-OR
-
-```javascript
-||
-```
-
-At least one true.
-
----
-
-NOT
-
-```javascript
-!
-```
-
-Reverse boolean.
-
----
-
-Example
-
-```javascript
-if (age > 18 && citizen) {
-}
-```
-
----
-
-# 12. Nullish Coalescing
-
-Operator
-
-```javascript
-??
-```
-
-Returns first value that is **not null or undefined**.
-
-```javascript
-let name = userName ?? "Guest";
-```
-
-Difference
-
-```javascript
-0 || 100;
-```
-
-Returns
-
-```
-100
-```
-
-Because 0 is falsy.
-
-```javascript
-0 ?? 100;
-```
-
-Returns
-
-```
-0
-```
-
-Because 0 isn't null or undefined.
-
----
-
-# 13. Loops
-
-## while
-
-```javascript
-while (condition) {}
-```
-
-Example
-
-```javascript
-let i = 1;
-
-while (i <= 5) {
-  console.log(i);
-  i++;
-}
-```
-
----
-
-## do...while
-
-Runs at least once.
-
-```javascript
-do {} while (condition);
-```
-
----
-
-## for
-
-```javascript
-for (let i = 0; i < 5; i++) {}
-```
-
-Structure
-
-```
-Initialization
-Condition
-Increment
-```
-
----
-
-Keywords
-
-```javascript
-break
-continue
-```
-
----
-
-# 14. Switch Statement
-
-Alternative to multiple if-else.
-
-```javascript
-switch (day) {
-  case 1:
-    console.log("Monday");
-    break;
-
-  case 2:
-    console.log("Tuesday");
-    break;
-
-  default:
-    console.log("Unknown");
-}
-```
-
-Remember
-
-Always use
-
-```javascript
-break;
-```
-
-unless intentional fall-through is desired.
-
----
-
-# 15. Functions
-
-Reusable block of code.
-
-```javascript
-function greet() {
-  console.log("Hello");
-}
-```
-
-Calling
-
-```javascript
-greet();
-```
-
-Parameters
-
-```javascript
-function add(a, b) {
-  return a + b;
-}
-```
-
-Return value
-
-```javascript
-let sum = add(2, 3);
-```
-
----
-
-# 16. Function Expressions
-
-Functions stored inside variables.
-
-```javascript
-const greet = function () {
-  console.log("Hello");
-};
-```
-
-Anonymous function
-
-```javascript
-const add = function (a, b) {
-  return a + b;
-};
-```
-
-Difference
-
-Function declarations are **hoisted**.
-
-```javascript
-hello();
-
-function hello() {}
-```
-
-Works.
-
-Function expressions are **not initialized until assignment**.
-
-```javascript
-hello();
-
-const hello = function () {};
-```
-
-Throws an error.
-
----
-
-# 17. Arrow Functions
-
-Shorter syntax for writing functions.
-
-Traditional
-
-```javascript
-function add(a, b) {
-  return a + b;
-}
-```
-
-Arrow
-
-```javascript
-const add = (a, b) => {
-  return a + b;
-};
-```
-
-Short form
-
-```javascript
-const add = (a, b) => a + b;
-```
-
-Single parameter
-
-```javascript
-const square = (x) => x * x;
-```
-
-No parameters
-
-```javascript
-const greet = () => "Hello";
-```
-
-### Characteristics
-
-- Shorter syntax
-- No own `this`
-- Cannot be used as constructors
-- Best for callbacks and functional programming
-
----
+## Quick Rules
+
+- **`let`** → Mutable variable.
+- **`const`** → Immutable binding (can't reassign).
+- **`var`** → Legacy, avoid.
+- Use **camelCase**.
+- Variable names are **case-sensitive**.
+- Use **descriptive names**.
+- Declare variables before using them.
+- Use **UPPER_SNAKE_CASE** only for hard-coded constants.
