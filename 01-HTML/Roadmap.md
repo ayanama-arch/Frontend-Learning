@@ -79,7 +79,7 @@
     - Source elements
     - Track element for captions
 
-14. **Embedded Content**
+14. **Embedded Content** ✅
     - iframes
     - Object and embed
     - SVG basics
